@@ -7,6 +7,9 @@ class TwitAPI:
     def __init__(self, user, password, database, host='localhost'):
         self.dbu = DBUtils(user, password, database, host)
 
+    def closeConnection(self):
+        self.dbu.close()
+
     # Gets tweet table
     def getTweets(self) -> pd.DataFrame:
         sql = ("SELECT * FROM tweet;")
@@ -55,7 +58,6 @@ class TwitAPI:
 
         df = self.dbu.execute(sql)
         timeline = [Tweet(*df.iloc[i][0:]) for i in range(len(df))]
-        print(df)
         return timeline
 
     # Clears the followings table
